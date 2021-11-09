@@ -1,0 +1,33 @@
+.header {
+  text-align: center;
+  background: #1C1C21;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.left {
+  flex: 1;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.right {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.nav {
+  display: flex;
+}
+
+.nav a {
+  text-decoration: none;
+  display: flex;
+  flex-align: center;
+}
+
+.selected {
+  color: #F2F2F2;
+}

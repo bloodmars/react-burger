@@ -1,26 +1,37 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import styles from './App.module.css'
+import AppHeader from './components/AppHeader'
+import BurgerConstructor from './components/BurgerConstructor'
+import BurgerIngredients from './components/BurgerIngredients'
+import dataIngredients from './utils/ingredients.js'
+import dataIngredientsExample from './utils/ingredients.example.js'
 
 function App() {
+  const ingredientsLength = dataIngredientsExample.length - 1
+  const ingredientTop = dataIngredientsExample[0]
+  const ingredientBottom = dataIngredientsExample[ingredientsLength]
+  const ingredientsMiddle = dataIngredientsExample.slice(1, ingredientsLength)
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <>
+      <AppHeader />
+      <main className={styles.main}>
+        <section className={styles.section}>
+          <BurgerConstructor 
+            ingredients={dataIngredients} 
+          />
+        </section >
+        <section className={styles.section}>
+          <BurgerIngredients 
+            ingredientTop={ingredientTop}
+            ingredientBottom={ingredientBottom}
+            ingredientsMiddle={ingredientsMiddle}
+            ingredientsLength={ingredientsLength}
+          />
+        </section>
+      </main>
+    </>
+  )
 }
 
-export default App;
+export default App
