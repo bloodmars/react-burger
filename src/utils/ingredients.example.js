@@ -99,4 +99,4 @@ const ingredientsExample = [
   }
 ]
 
-export default ingredientsExample;
+export default ingredientsExample

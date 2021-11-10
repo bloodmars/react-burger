@@ -1,14 +1,36 @@
-.tab {
-  display: flex;
-}
-
-.container {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-}
-
 .scroller {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 16px;
+  margin: 16px 0px;
+  max-height: calc(100% - 284px);
   overflow: auto;
-  max-height: calc(100% - 195px);
+}
+
+.draggable {
+  display: flex;
+  align-items: center;
+}
+
+.draggable svg {
+  margin-right: 8px;
+  cursor: pointer;
+}
+
+.price {
+  display: flex;
+  align-items: center;
+}
+
+.price svg {
+  width: 33px;
+  height: 33px;
+  margin-left: 8px;
+}
+
+.total {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 }

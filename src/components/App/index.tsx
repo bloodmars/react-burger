@@ -17,17 +17,17 @@ function App() {
       <AppHeader />
       <main className={styles.main}>
         <section className={styles.section}>
-          <BurgerConstructor 
+          <BurgerIngredients 
             ingredients={dataIngredients} 
           />
         </section >
         <section className={`${styles.section} ${styles.right} pt-25 pb-10 pr-4`}>
-          <BurgerIngredients 
+          <BurgerConstructor 
             ingredientTop={ingredientTop}
             ingredientBottom={ingredientBottom}
             ingredientsMiddle={ingredientsMiddle}
             ingredientsLength={ingredientsLength}
-          />
+          />        
         </section>
       </main>
     </>
