@@ -1,0 +1,17 @@
+.main {
+  display: flex;
+  justify-content: space-between;
+  margin: 0px auto;
+  width: 1240px;
+  height: calc(100vh - 96px);
+}
+
+.section {
+  flex-basis: 600px;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.right {
+  text-align: right;
+}

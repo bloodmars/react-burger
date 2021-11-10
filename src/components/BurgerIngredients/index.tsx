@@ -13,50 +13,41 @@ interface Props {
 interface State {}
 
 export default class BurgerIngredients extends React.Component<Props, State> {
-  constructor(props: Props) {
-    super(props)
-  }
-
   render() {
     return (
       <>
-        <div className={`${styles.box} mt-25 mb-10 mr-4`}>
-          <ConstructorElement       
-            type="top"
-            isLocked={true}
-            text={this.props.ingredientTop.name}
-            price={this.props.ingredientTop.price}
-            thumbnail={this.props.ingredientTop.image}
-          /> 
+        <ConstructorElement
+          type="top"
+          isLocked={true}
+          text={this.props.ingredientTop.name}
+          price={this.props.ingredientTop.price}
+          thumbnail={this.props.ingredientTop.image}
+        /> 
 
-          <div className={styles.middle}>
-            {this.props.ingredientsMiddle.map((element, index) => {
-              const isFirst = index === 0 ? true : false
-              const isLast = this.props.ingredientsLength === index ? true : false
-              return (
-                <div className={styles.draggable}>
-                  <DragIcon type="primary" />
-                  <ConstructorElement       
-                    isLocked={false}
-                    text={element.name}
-                    price={element.price}
-                    thumbnail={element.image}
-                    key={index}
-                  />  
-                </div>          
-              )
-            })}
-          </div>
-
-          <ConstructorElement       
-            type="bottom"
-            isLocked={true}
-            text={this.props.ingredientBottom.name}
-            price={this.props.ingredientBottom.price}
-            thumbnail={this.props.ingredientBottom.image}
-          />        
+        <div className={styles.scroller}>
+          {this.props.ingredientsMiddle.map((element, index) => {
+            return (
+              <div className={styles.draggable} key={index}>
+                <DragIcon type="primary" />
+                <ConstructorElement       
+                  isLocked={false}
+                  text={element.name}
+                  price={element.price}
+                  thumbnail={element.image}
+                />  
+              </div>          
+            )
+          })}
         </div>
-        <div className={`${styles.total} mr-4 `}>
+
+        <ConstructorElement       
+          type="bottom"
+          isLocked={true}
+          text={this.props.ingredientBottom.name}
+          price={this.props.ingredientBottom.price}
+          thumbnail={this.props.ingredientBottom.image}
+        />
+        <div className={`${styles.total} mt-10`}>
           <div className={`${styles.price} mr-10`}>
             <span className="text text_type_digits-medium">610</span>
             <CurrencyIcon type="primary" />

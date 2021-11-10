@@ -1,10 +1,10 @@
 import React from 'react'
-import styles from './App.module.css'
-import AppHeader from './components/AppHeader'
-import BurgerConstructor from './components/BurgerConstructor'
-import BurgerIngredients from './components/BurgerIngredients'
-import dataIngredients from './utils/ingredients.js'
-import dataIngredientsExample from './utils/ingredients.example.js'
+import styles from './styles.module.css'
+import AppHeader from '../.././components/AppHeader'
+import BurgerConstructor from '../.././components/BurgerConstructor'
+import BurgerIngredients from '../.././components/BurgerIngredients'
+import dataIngredients from '../.././utils/ingredients.js'
+import dataIngredientsExample from '../.././utils/ingredients.example.js'
 
 function App() {
   const ingredientsLength = dataIngredientsExample.length - 1
@@ -21,7 +21,7 @@ function App() {
             ingredients={dataIngredients} 
           />
         </section >
-        <section className={styles.section}>
+        <section className={`${styles.section} ${styles.right} pt-25 pb-10 pr-4`}>
           <BurgerIngredients 
             ingredientTop={ingredientTop}
             ingredientBottom={ingredientBottom}

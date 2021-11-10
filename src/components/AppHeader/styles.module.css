@@ -1,9 +1,14 @@
 .header {
-  text-align: center;
   background: #1C1C21;
+}
+
+.container {
+  text-align: center;
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 1275px;
+  margin: auto;
 }
 
 .left {
