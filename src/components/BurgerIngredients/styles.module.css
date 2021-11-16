@@ -1,0 +1,14 @@
+.tab {
+  display: flex;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.scroller {
+  overflow: auto;
+  max-height: calc(100% - 195px);
+}
