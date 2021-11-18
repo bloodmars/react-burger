@@ -1,0 +1,14 @@
+.container {
+  text-align: center;
+}
+
+.options {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.item {
+  color: #8585AD;
+}

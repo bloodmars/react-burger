@@ -1,16 +1,32 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './styles.module.css'
-import AppHeader from '../.././components/AppHeader'
-import BurgerConstructor from '../.././components/BurgerConstructor'
-import BurgerIngredients from '../.././components/BurgerIngredients'
-import dataIngredients from '../.././utils/ingredients.js'
-import dataIngredientsExample from '../.././utils/ingredients.example.js'
+import AppHeader from '../../components/AppHeader'
+import BurgerConstructor from '../../components/BurgerConstructor'
+import BurgerIngredients from '../../components/BurgerIngredients'
 
-function App() {
-  const ingredientsLength = dataIngredientsExample.length - 1
-  const ingredientTop = dataIngredientsExample[0]
-  const ingredientBottom = dataIngredientsExample[ingredientsLength]
-  const ingredientsMiddle = dataIngredientsExample.slice(1, ingredientsLength)
+const ApiUrl = 'https://norma.nomoreparties.space/api/ingredients'
+
+const App = () => {
+  const [ingredients, setIngredients] = useState([])
+  const [constructorIngredients, setConstructorIngredients] = useState({top: undefined, bottom: undefined, middle: []})
+
+  useEffect(() => {
+    fetch(ApiUrl)
+      .then(response => response.json())
+      .then(data => setIngredients(data.data))
+      .catch(error => alert(`Error api request: ${error}`))
+  }, [])
+
+  useEffect(() => {
+    let ingredientsLength = ingredients.length - 1
+    if (ingredientsLength > 0) {
+      setConstructorIngredients({
+        top: ingredients[0],
+        bottom: ingredients[ingredientsLength],
+        middle: ingredients.slice(1, ingredientsLength)
+      })
+    }
+  }, [ingredients])
 
   return (
     <>
@@ -18,16 +34,15 @@ function App() {
       <main className={styles.main}>
         <section className={styles.section}>
           <BurgerIngredients 
-            ingredients={dataIngredients} 
+            ingredients={ingredients} 
           />
         </section >
         <section className={`${styles.section} ${styles.right} pt-25 pb-10 pr-4`}>
           <BurgerConstructor 
-            ingredientTop={ingredientTop}
-            ingredientBottom={ingredientBottom}
-            ingredientsMiddle={ingredientsMiddle}
-            ingredientsLength={ingredientsLength}
-          />        
+            ingredientTop={constructorIngredients.top}
+            ingredientBottom={constructorIngredients.bottom}
+            ingredientsMiddle={constructorIngredients.middle}
+          /> 
         </section>
       </main>
     </>

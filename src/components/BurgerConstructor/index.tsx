@@ -1,60 +1,78 @@
-import React from 'react';
+import React, { useState } from 'react'
 import styles from './styles.module.css';
 import { ConstructorElement, DragIcon, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components'
 import IngredientInterface from '../../interfaces/ingredient'
+import OrderDetails from '../../components/OrderDetails'
+import Modal from '../../components/Modal'
 
 interface Props {
-  ingredientTop: IngredientInterface,
-  ingredientBottom: IngredientInterface,
-  ingredientsMiddle: Array<IngredientInterface>,
-  ingredientsLength: number
+  ingredientTop: IngredientInterface | undefined;
+  ingredientBottom: IngredientInterface | undefined;
+  ingredientsMiddle: IngredientInterface[];
 }
 
-interface State {}
+const BurgerConstructor = (props: Props) => {
+  const [showModal, setShowModal] = useState(false)
+  const [orderNumber, setOrderNumber] = useState<string>()
 
-export default class BurgerIngredients extends React.Component<Props, State> {
-  render() {
-    return (
-      <>
+  const showOrderPopup = () => {
+    setOrderNumber('034536')
+    setShowModal(true)
+  }
+
+  return (
+    <>
+      {props.ingredientTop && (
         <ConstructorElement
           type="top"
           isLocked={true}
-          text={this.props.ingredientTop.name}
-          price={this.props.ingredientTop.price}
-          thumbnail={this.props.ingredientTop.image}
-        /> 
+          text={props.ingredientTop.name}
+          price={props.ingredientTop.price}
+          thumbnail={props.ingredientTop.image}
+        />         
+      )}
 
-        <div className={styles.scroller}>
-          {this.props.ingredientsMiddle.map((element, index) => {
-            return (
-              <div className={styles.draggable} key={index}>
-                <DragIcon type="primary" />
-                <ConstructorElement       
-                  isLocked={false}
-                  text={element.name}
-                  price={element.price}
-                  thumbnail={element.image}
-                />  
-              </div>          
-            )
-          })}
-        </div>
+      <div className={styles.scroller}>
+        {props.ingredientsMiddle.map((element, index) => {
+          return (
+            <div className={styles.draggable} key={index}>
+              <DragIcon type="primary" />
+              <ConstructorElement
+                isLocked={false}
+                text={element.name}
+                price={element.price}
+                thumbnail={element.image}
+              />  
+            </div>
+          )
+        })}
+      </div>
 
-        <ConstructorElement       
+      {props.ingredientBottom && (
+        <ConstructorElement
           type="bottom"
           isLocked={true}
-          text={this.props.ingredientBottom.name}
-          price={this.props.ingredientBottom.price}
-          thumbnail={this.props.ingredientBottom.image}
+          text={props.ingredientBottom.name}
+          price={props.ingredientBottom.price}
+          thumbnail={props.ingredientBottom.image}
         />
-        <div className={`${styles.total} mt-10`}>
-          <div className={`${styles.price} mr-10`}>
-            <span className="text text_type_digits-medium">610</span>
-            <CurrencyIcon type="primary" />
-          </div>
-          <Button type="primary" size="large">Оформить заказ</Button>
+      )}
+
+      <div className={`${styles.total} mt-10`}>
+        <div className={`${styles.price} mr-10`}>
+          <span className="text text_type_digits-medium">610</span>
+          <CurrencyIcon type="primary" />
         </div>
-      </>
-    )
-  }
+        <Button type="primary" size="large" onClick={showOrderPopup}>Оформить заказ</Button>
+      </div>
+
+      {showModal && orderNumber && (
+        <Modal onClick={() => setShowModal(false)}>
+          <OrderDetails number={orderNumber} />
+        </Modal>
+      )}      
+    </>
+  )
 }
+
+export default BurgerConstructor
