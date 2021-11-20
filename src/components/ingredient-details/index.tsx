@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { FC } from 'react'
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './styles.module.css'
 import IngredientInterface from '../../interfaces/ingredient'
@@ -7,7 +7,7 @@ interface Props {
   ingredient: IngredientInterface;
 }
 
-const IngredientDetails = ({ ingredient }: Props) => { 
+const IngredientDetails: FC<Props> = ({ ingredient }) => { 
   return (
     <div className={styles.container}>
       <img className={styles.image} src={ingredient.image_large} alt={ingredient.name}/>

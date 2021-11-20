@@ -1,16 +1,16 @@
-import React, { useState } from 'react'
+import React, { useState, FC } from 'react'
 import styles from './styles.module.css'
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 import IngredientInterface from '../../interfaces/ingredient'
-import Ingredient from '../../components/Ingredient'
-import IngredientDetails from '../../components/IngredientDetails'
-import Modal from '../../components/Modal'
+import Ingredient from '../../components/ingredient'
+import IngredientDetails from '../../components/ingredient-details'
+import Modal from '../../components/modal'
 
 interface Props {
   ingredients: IngredientInterface[];
 }
 
-const BurgerIngredients = (props: Props) => {
+const BurgerIngredients: FC<Props> = (props) => {
   const [activeTab, setActiveTab] = useState(1)
   const [showModal, setShowModal] = useState(false)
   const [showIngredient, setShowIngredient] = useState<IngredientInterface>()
@@ -33,7 +33,7 @@ const BurgerIngredients = (props: Props) => {
           <h2 className="text text_type_main-medium">Булки</h2>     
           <div className={`${styles.container} ml-4 mr-4 mt-6 mb-2`}>
             {props.ingredients.filter(element => element.type === 'bun').map(element => (
-              <Ingredient data={element} key={element._id} onClick={() => showIngredientPopup(element)} />
+              <Ingredient {...element} key={element._id} onClick={() => showIngredientPopup(element)} />
             ))}
           </div>
         </div>
@@ -41,7 +41,7 @@ const BurgerIngredients = (props: Props) => {
           <h2 className="text text_type_main-medium">Соусы</h2>
           <div className={`${styles.container} ml-4 mr-4 mt-6 mb-2`}>
             {props.ingredients.filter(element => element.type === 'sauce').map(element => (
-              <Ingredient data={element} key={element._id} onClick={() => showIngredientPopup(element)} />
+              <Ingredient {...element} key={element._id} onClick={() => showIngredientPopup(element)} />
             ))}
           </div> 
         </div>
@@ -49,14 +49,14 @@ const BurgerIngredients = (props: Props) => {
           <h2 className="text text_type_main-medium">Начинки</h2>
           <div className={`${styles.container} ml-4 mr-4 mt-6 mb-2`}>
             {props.ingredients.filter(element => element.type === 'main').map(element => (
-              <Ingredient data={element} key={element._id} onClick={() => showIngredientPopup(element)} />
+              <Ingredient {...element} key={element._id} onClick={() => showIngredientPopup(element)} />
             ))}
           </div> 
         </div>
       </div>
 
       {showModal && showIngredient && (
-        <Modal onClick={() => setShowModal(false)} title="Детали ингредиента">
+        <Modal onClose={() => setShowModal(false)} title="Детали ингредиента">
           <IngredientDetails ingredient={showIngredient} />
         </Modal>
       )}

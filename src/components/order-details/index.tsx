@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { FC } from 'react'
 import styles from './styles.module.css'
 import OrderIcon from '../../images/order.gif'
 
@@ -6,7 +6,7 @@ interface Props {
   number: string;
 }
 
-const OrderDetails = ({ number }: Props) => { 
+const OrderDetails: FC<Props>  = ({ number }) => { 
   return (
     <div className={styles.container}>
       <div className={`${styles.number} mt-4 mb-8 text text_type_digits-large`}>{number}</div>

@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState, FC } from 'react'
 import styles from './styles.module.css';
 import { ConstructorElement, DragIcon, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components'
 import IngredientInterface from '../../interfaces/ingredient'
-import OrderDetails from '../../components/OrderDetails'
-import Modal from '../../components/Modal'
+import OrderDetails from '../../components/order-details'
+import Modal from '../../components/modal'
 
 interface Props {
   ingredientTop: IngredientInterface | undefined;
@@ -11,7 +11,7 @@ interface Props {
   ingredientsMiddle: IngredientInterface[];
 }
 
-const BurgerConstructor = (props: Props) => {
+const BurgerConstructor: FC<Props> = (props) => {
   const [showModal, setShowModal] = useState(false)
   const [orderNumber, setOrderNumber] = useState<string>()
 
@@ -33,9 +33,9 @@ const BurgerConstructor = (props: Props) => {
       )}
 
       <div className={styles.scroller}>
-        {props.ingredientsMiddle.map((element, index) => {
+        {props.ingredientsMiddle.map((element) => {
           return (
-            <div className={styles.draggable} key={index}>
+            <div className={styles.draggable} key={element._id}>
               <DragIcon type="primary" />
               <ConstructorElement
                 isLocked={false}
@@ -67,7 +67,7 @@ const BurgerConstructor = (props: Props) => {
       </div>
 
       {showModal && orderNumber && (
-        <Modal onClick={() => setShowModal(false)}>
+        <Modal onClose={() => setShowModal(false)}>
           <OrderDetails number={orderNumber} />
         </Modal>
       )}      
