@@ -15,3 +15,15 @@
 .right {
   text-align: right;
 }
+
+.right > div {
+  margin-right: 16px;
+}
+
+.right .constructor-element {
+  width:  50px;
+}
+
+.error {
+  margin: auto!important;
+}

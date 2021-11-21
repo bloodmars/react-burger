@@ -2,6 +2,7 @@
   text-align: center;
   flex-basis: 272px;
   position: relative;
+  cursor: pointer;
 }
 
 .image {
