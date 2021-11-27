@@ -1,19 +1,17 @@
-import React, { useState, FC } from 'react'
+import React, { useState, FC, useContext } from 'react'
 import styles from './styles.module.css'
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 import IngredientInterface from '../../interfaces/ingredient'
 import Ingredient from '../../components/ingredient'
 import IngredientDetails from '../../components/ingredient-details'
 import Modal from '../../components/modal'
+import { BurgerContext } from '../../services/contexts'
 
-interface Props {
-  ingredients: IngredientInterface[];
-}
-
-const BurgerIngredients: FC<Props> = (props) => {
+const BurgerIngredients = () => {
   const [activeTab, setActiveTab] = useState(1)
   const [showModal, setShowModal] = useState(false)
   const [showIngredient, setShowIngredient] = useState<IngredientInterface>()
+  const ingredients = useContext(BurgerContext)
 
   const showIngredientPopup = (ingredient: IngredientInterface) => {
     setShowIngredient(ingredient)
@@ -32,24 +30,24 @@ const BurgerIngredients: FC<Props> = (props) => {
         <div>
           <h2 className="text text_type_main-medium">Булки</h2>     
           <div className={`${styles.container} ml-4 mr-4 mt-6 mb-2`}>
-            {props.ingredients.filter(element => element.type === 'bun').map(element => (
-              <Ingredient {...element} key={element._id} onClick={() => showIngredientPopup(element)} />
+            {ingredients.filter((ingredient: IngredientInterface) => ingredient.type === 'bun').map((ingredient: IngredientInterface) => (
+              <Ingredient {...ingredient} key={ingredient._id} onClick={() => showIngredientPopup(ingredient)} />
             ))}
           </div>
         </div>
         <div>
           <h2 className="text text_type_main-medium">Соусы</h2>
           <div className={`${styles.container} ml-4 mr-4 mt-6 mb-2`}>
-            {props.ingredients.filter(element => element.type === 'sauce').map(element => (
-              <Ingredient {...element} key={element._id} onClick={() => showIngredientPopup(element)} />
+            {ingredients.filter((ingredient: IngredientInterface) => ingredient.type === 'sauce').map((ingredient: IngredientInterface) => (
+              <Ingredient {...ingredient} key={ingredient._id} onClick={() => showIngredientPopup(ingredient)} />
             ))}
           </div> 
         </div>
         <div>
           <h2 className="text text_type_main-medium">Начинки</h2>
           <div className={`${styles.container} ml-4 mr-4 mt-6 mb-2`}>
-            {props.ingredients.filter(element => element.type === 'main').map(element => (
-              <Ingredient {...element} key={element._id} onClick={() => showIngredientPopup(element)} />
+            {ingredients.filter((ingredient: IngredientInterface) => ingredient.type === 'main').map((ingredient: IngredientInterface) => (
+              <Ingredient {...ingredient} key={ingredient._id} onClick={() => showIngredientPopup(ingredient)} />
             ))}
           </div> 
         </div>

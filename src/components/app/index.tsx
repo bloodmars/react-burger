@@ -3,15 +3,16 @@ import styles from './styles.module.css'
 import AppHeader from '../../components/app-header'
 import BurgerConstructor from '../../components/burger-constructor'
 import BurgerIngredients from '../../components/burger-ingredients'
-
-const API_URL = 'https://norma.nomoreparties.space/api/ingredients'
+import IngredientInterface from '../../interfaces/ingredient'
+import { BurgerContext } from '../../services/contexts'
+import { API_BASE_URL } from '../../services/api'
 
 const App = () => {
-  const [ingredients, setIngredients] = useState([])
+  const [ingredients, setIngredients] = useState<IngredientInterface[]>([])
   const [errorRequest, setErrorRequest] = useState<string>()
   
   useEffect(() => {
-    fetch(API_URL)
+    fetch(`${API_BASE_URL}/ingredients`)
       .then(response => {
         if (response.ok) {
           return response.json()
@@ -23,41 +24,17 @@ const App = () => {
       .catch(error => setErrorRequest(error.message))
   }, [])
 
-  const constructorIngredients = React.useMemo(
-    () => {
-      const ingredientsLength = ingredients.length - 1
-      if (ingredientsLength > 0) {
-        return {
-          side: ingredients[0],
-          middle: ingredients.slice(1, ingredientsLength)
-        }
-      } else {
-        return {
-          side: undefined,
-          middle: []
-        }
-      }
-    },
-    [ingredients]
-  )
-
   return (
-    <>
+    <BurgerContext.Provider value={ingredients}>
       <AppHeader />
       <main className={styles.main}>
         {!errorRequest && (
           <>
             <section className={styles.section}>
-              <BurgerIngredients 
-                ingredients={ingredients} 
-              />
+              <BurgerIngredients />
             </section >
             <section className={`${styles.section} ${styles.right} pt-25 pb-10 pr-4`}>
-              <BurgerConstructor 
-                ingredientTop={constructorIngredients.side}
-                ingredientBottom={constructorIngredients.side}
-                ingredientsMiddle={constructorIngredients.middle}
-              /> 
+              <BurgerConstructor /> 
             </section>
           </>
         )}
@@ -65,7 +42,7 @@ const App = () => {
           <div className={`${styles.error} text text_type_main-default`}>Упс, у нас проблемы с API: {errorRequest}</div>
         )}
       </main>
-    </>
+    </BurgerContext.Provider>
   )
 }
 
