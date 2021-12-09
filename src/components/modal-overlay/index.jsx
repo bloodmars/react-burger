@@ -1,12 +1,8 @@
-import React, { FC } from 'react'
+import React from 'react'
 import ReactDOM from 'react-dom'
 import styles from './styles.module.css'
 
-interface Props {
-  onClose: () => void;
-}
-
-const ModalOverlay: FC<Props>  = (props) => { 
+const ModalOverlay = (props) => { 
   return (
     <div className={styles.overlay} onClick={props.onClose}></div>
   )

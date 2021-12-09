@@ -18,3 +18,8 @@
 .name {
   min-height: 48px;
 }
+
+.draggable {
+  position: relative;
+  z-index: 1;
+}

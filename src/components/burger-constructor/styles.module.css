@@ -3,7 +3,7 @@
   flex-direction: column;
   align-items: flex-end;
   gap: 16px;
-  margin: 16px 0px!important;
+  margin: 16px -8px 16px 0px!important;
   max-height: calc(100% - 284px);
   overflow: auto;
   padding-right: 8px;
@@ -19,16 +19,6 @@
  
 .scroller::-webkit-scrollbar-thumb {
   background: #8585AD;
-}
-
-.draggable {
-  display: flex;
-  align-items: center;
-}
-
-.draggable > svg {
-  margin-right: 8px;
-  cursor: pointer;
 }
 
 .price {
@@ -47,3 +37,46 @@
   justify-content: flex-end;
   align-items: center;
 }
+
+.container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;  
+}
+
+.empty {
+  position: relative;
+  background-image: linear-gradient(90deg, rgba(255, 255, 255, 0.35) 50%, transparent 50%), linear-gradient(90deg, rgba(255, 255, 255, 0.35) 50%, transparent 50%), linear-gradient(0deg, rgba(255, 255, 255, 0.35) 50%, transparent 50%), linear-gradient(0deg, rgba(255, 255, 255, 0.35) 50%, transparent 50%);
+  background-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
+  background-size: 15px 2px, 15px 2px, 2px 15px, 2px 15px;
+  background-position: left top, right bottom, left bottom, right   top;
+  animation: border-dance 0.8s infinite linear;
+}
+
+.empty:after {
+  content: 'Перетащите ингредиенты сюда';
+  margin: auto;
+  font-family: 'Jet Brains Mono';
+  font-size: 24px;
+  opacity: 0.35;
+}
+
+.empty.isOver {
+  animation: border-dance 0.2s infinite linear;
+}
+
+.empty.isOver:after {
+  content: 'Бросайте ингредиент';
+}
+
+@keyframes border-dance {
+  0% {
+    background-position: left top, right bottom, left bottom, right   top;
+  }
+  100% {
+    background-position: left 15px top, right 15px bottom , left bottom 15px , right   top 15px;
+  }
+}
+
+
