@@ -1,7 +1,7 @@
 import React, { useRef } from 'react'
 import styles from './styles.module.css';
 import { ConstructorElement as ConstructorElementBase, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components'
-import { REORDER_ITEM, BUILDER_REMOVE_ITEM } from '../../services/actions/builder'
+import { REORDER_ITEM, BUILDER_REMOVE_ITEM } from 'services/actions/builder'
 import { useDispatch } from 'react-redux'
 import { useDrag, useDrop } from 'react-dnd'
 
@@ -71,7 +71,7 @@ const ConstructorElement = ({ isLocked, type, text, price, thumbnail, index }) =
         text={text}
         price={price}
         thumbnail={thumbnail}
-        handleClose={() => removeIngredientHandler()}
+        handleClose={removeIngredientHandler}
       />  
     </div>
   )

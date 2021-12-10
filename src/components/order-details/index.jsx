@@ -1,6 +1,6 @@
 import React from 'react'
 import styles from './styles.module.css'
-import OrderIcon from '../../images/order.gif'
+import OrderIcon from 'images/order.gif'
 
 const OrderDetails = ({ number }) => { 
   return (

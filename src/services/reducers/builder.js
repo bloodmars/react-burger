@@ -1,43 +1,43 @@
 import {
-  BUILDER_SET_SIDE,
+  BUILDER_SET_BUN,
   BUILDER_ADD_ITEM,
   BUILDER_REMOVE_ITEM,
   REORDER_ITEM
 } from '../actions/builder'
 
 const builderInitialState = {
-  side: null,
-  ingredients: []
+  builderBun: null,
+  builderIngredients: []
 }
 
 export const builderReducer = (state = builderInitialState, action) => {
   switch (action.type) {
-    case BUILDER_SET_SIDE: {
+    case BUILDER_SET_BUN: {
       return {
         ...state,
-        side: action.payload
+        builderBun: action.payload
       }
     }
     case BUILDER_ADD_ITEM: {
       return {
         ...state,
-        ingredients: [...state.ingredients, action.payload]
+        builderIngredients: [...state.builderIngredients, action.payload]
       }
     }
     case BUILDER_REMOVE_ITEM: {
       return {
         ...state,
-        ingredients: state.ingredients.filter((ingredient, index) => index !== action.payload)
+        builderIngredients: state.builderIngredients.filter((ingredient, index) => index !== action.payload)
       }
     }
     case REORDER_ITEM: {
-      const dragCard = state.ingredients[action.payload.dragIndex]
-      const ingredientsUpdated = state.ingredients
+      const dragCard = state.builderIngredients[action.payload.dragIndex]
+      const ingredientsUpdated = [...state.builderIngredients]
       ingredientsUpdated.splice(action.payload.dragIndex, 1)
       ingredientsUpdated.splice(action.payload.hoverIndex, 0, dragCard)
       return {
         ...state,
-        ingredients: ingredientsUpdated
+        builderIngredients: ingredientsUpdated
       }
     } 
     default: {

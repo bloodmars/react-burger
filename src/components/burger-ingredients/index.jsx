@@ -1,15 +1,16 @@
 import React, { useState, useRef, useEffect } from 'react'
 import styles from './styles.module.css'
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
-import Ingredient from '../../components/ingredient'
-import IngredientDetails from '../../components/ingredient-details'
-import Modal from '../../components/modal'
-import { SHOW_INGREDIENT_DETAILS, HIDE_INGREDIENT_DETAILS } from '../../services/actions/ingredients'
+import Ingredient from 'components/ingredient'
+import IngredientDetails from 'components/ingredient-details'
+import Modal from 'components/modal'
+import { SHOW_INGREDIENT_DETAILS, HIDE_INGREDIENT_DETAILS } from 'services/actions/modals'
 import { useSelector, useDispatch } from 'react-redux'
 
 const BurgerIngredients = () => {
   const [activeTab, setActiveTab] = useState('bun')
-  const { ingredients, ingredientDetails } = useSelector(store => store.ingredients)
+  const { ingredients } = useSelector(store => store.ingredients)
+  const { ingredientDetails } = useSelector(store => store.modals)
   const dispatch = useDispatch()
 
   const scroller = useRef(null)
@@ -68,6 +69,20 @@ const BurgerIngredients = () => {
     return () => scroller.current.removeEventListener('scroll', scrollIngredientsEvent);  
   }, [scroller])
 
+  const getIngredientSection = (type) => {
+    return (
+      <div className={`${styles.container} ml-4 mr-4 mt-6 mb-2`}>
+        {ingredients.filter(ingredient => ingredient.type === type).map(ingredient => (
+          <Ingredient 
+            {...ingredient} 
+            key={ingredient._id} 
+            onClick={() => showIngredientDetailsPopup(ingredient)} 
+          />
+        ))}
+      </div>
+    )
+  }
+
   return (
     <>
       <h1 className="text text_type_main-large mt-10 mb-5">Соберите бургер</h1>
@@ -78,45 +93,21 @@ const BurgerIngredients = () => {
       </div>
       <div className={styles.scroller} ref={scroller}>
         <div>
-          <h2 className="text text_type_main-medium" ref={sectionBun}>Булки</h2>     
-          <div className={`${styles.container} ml-4 mr-4 mt-6 mb-2`}>
-            {ingredients.filter(ingredient => ingredient.type === 'bun').map(ingredient => (
-              <Ingredient 
-                {...ingredient} 
-                key={ingredient._id} 
-                onClick={() => showIngredientDetailsPopup(ingredient)} 
-              />
-            ))}
-          </div>
+          <h2 className="text text_type_main-medium" ref={sectionBun}>Булки</h2>
+          {getIngredientSection('bun')}
         </div>
         <div>
           <h2 className="text text_type_main-medium" ref={sectionSauce}>Соусы</h2>
-          <div className={`${styles.container} ml-4 mr-4 mt-6 mb-2`}>
-            {ingredients.filter(ingredient => ingredient.type === 'sauce').map(ingredient => (
-              <Ingredient 
-                {...ingredient} 
-                key={ingredient._id} 
-                onClick={() => showIngredientDetailsPopup(ingredient)} 
-              />
-            ))}
-          </div> 
+          {getIngredientSection('sauce')}
         </div>
         <div>
           <h2 className="text text_type_main-medium" ref={sectionMain}>Начинки</h2>
-          <div className={`${styles.container} ml-4 mr-4 mt-6 mb-2`}>
-            {ingredients.filter(ingredient => ingredient.type === 'main').map(ingredient => (
-              <Ingredient 
-                {...ingredient} 
-                key={ingredient._id} 
-                onClick={() => showIngredientDetailsPopup(ingredient)} 
-              />
-            ))}
-          </div> 
+          {getIngredientSection('main')}
         </div>
       </div>
 
       {ingredientDetails && (
-        <Modal onClose={() => closeIngredientDetailsPopup()} title="Детали ингредиента">
+        <Modal onClose={closeIngredientDetailsPopup} title="Детали ингредиента">
           <IngredientDetails ingredient={ingredientDetails} />
         </Modal>
       )}

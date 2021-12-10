@@ -1,30 +1,30 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import styles from './styles.module.css'
 import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components'
 import { useDrag } from 'react-dnd'
 import { useSelector } from 'react-redux'
 
 const Ingredient = ({ onClick, _id, type, image, price, name }) => {
-  const { ingredients: builderIngredients, side } = useSelector(store => store.builder)
+  const { builderIngredients, builderBun } = useSelector(store => store.builder)
 
   const [, dragRef] = useDrag({
     type: type,
     item: { _id }
   })
 
-  const getCountIngredient = () => {
+  const countIngredient = useMemo(() => {
     if (type === 'bun') {
-      return (side && side._id === _id) ? 2 : 0
+      return (builderBun && builderBun._id === _id) ? 1 : 0
     } else {
-      return builderIngredients.filter(ingredient => ingredient._id === _id).length
+      return builderIngredients.reduce((total, ingredient) => { 
+        return ingredient._id === _id ? total + 1 : total
+      }, 0)
     }
-  }
-
-  const count = getCountIngredient()
+  }, [builderBun, builderIngredients])
 
   return (
     <div className={`${styles.ingredient} mb-8`} onClick={onClick}>
-      {count > 0 && <Counter count={count} size="default"/>}
+      {countIngredient > 0 && <Counter count={countIngredient} size="default"/>}
       <div ref={dragRef} className={styles.draggable}>
         <img className={`${styles.image} ml-4 mr-4 mb-1`} src={image} alt={name}/>
         <p className={`${styles.price} text text_type_digits-default mb-1`}>

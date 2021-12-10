@@ -1,16 +1,13 @@
 import {
   GET_INGREDIENTS_REQUEST,
   GET_INGREDIENTS_SUCCESS,
-  GET_INGREDIENTS_FAILED,
-  SHOW_INGREDIENT_DETAILS,
-  HIDE_INGREDIENT_DETAILS
+  GET_INGREDIENTS_FAILED
 } from '../actions/ingredients'
 
 const ingredientsInitialState = {
   ingredients: [],
-  ingredientsRequest: false,
-  ingredientsFailed: false,
-  ingredientDetails: null
+  isIngredientsGetLoading: false,
+  isIngredientsGetFailed: false
 }
 
 export const ingredientsReducer = (state = ingredientsInitialState, action) => {
@@ -18,36 +15,23 @@ export const ingredientsReducer = (state = ingredientsInitialState, action) => {
     case GET_INGREDIENTS_REQUEST: {
       return {
         ...state,
-        ingredientsRequest: true
+        isIngredientsGetLoading: true
       }
     }
     case GET_INGREDIENTS_FAILED: {
       return {
-        ...state,
-        ingredientsRequest: false,
-        ingredientsFailed: true
+        ...ingredientsInitialState,
+        isIngredientsGetFailed: true
       }
     }    
     case GET_INGREDIENTS_SUCCESS: {
       return {
         ...state,
-        ingredientsRequest: false,
-        ingredientsFailed: false,
+        isIngredientsGetLoading: false,
+        isIngredientsGetFailed: false,
         ingredients: action.payload
       }
-    }
-    case SHOW_INGREDIENT_DETAILS: {
-      return {
-        ...state,
-        ingredientDetails: action.payload
-      }
-    }
-    case HIDE_INGREDIENT_DETAILS: {
-      return {
-        ...state,
-        ingredientDetails: null
-      }
-    }    
+    } 
     default: {
       return state;
     }
