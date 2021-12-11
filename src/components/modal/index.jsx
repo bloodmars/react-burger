@@ -1,27 +1,20 @@
-import React, { useEffect, FC } from 'react'
+import React, { useEffect } from 'react'
 import ReactDOM from 'react-dom'
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components'
-import ModalOverlay from '../../components/modal-overlay'
+import ModalOverlay from 'components/modal-overlay'
 import styles from './styles.module.css'
 
-const modalRoot = document.getElementById("modals") as HTMLElement
+const modalRoot = document.getElementById('modals')
 
-interface Props {
-  children: React.ReactNode;
-  onClose: () => void;
-  title?: string;
-}
-
-const Modal: FC<Props>  = (props) => {
+const Modal = (props) => {
   useEffect(() => {
-    const trackKeyUp = (e: KeyboardEvent) => {
+    const trackKeyUp = (e) => {
       if (e.key === 'Escape') {
         props.onClose()
       }
     }
 
     document.addEventListener("keyup", trackKeyUp)
-
     return () => {
       document.removeEventListener("keyup", trackKeyUp)
     }

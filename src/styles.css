@@ -1,3 +1,7 @@
 .constructor-element {
   width: 536px;
 } 
+
+body {
+  overflow: hidden;
+}

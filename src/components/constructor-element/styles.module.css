@@ -1,0 +1,9 @@
+.element {
+  display: flex;
+  align-items: center;
+}
+
+.element > svg {
+  margin-right: 8px;
+  cursor: pointer;
+}
