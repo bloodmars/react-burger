@@ -31,8 +31,7 @@ const BurgerConstructor = () => {
   })
 
   const orderHandler = () => {
-    const orderItems = [builderBun].concat(builderIngredients)
-    dispatch(postOrder(orderItems))
+    dispatch(postOrder(builderBun ? [builderBun].concat(builderIngredients) : builderIngredients))
   }
 
   const closeOrderPopup = () => {
@@ -42,10 +41,11 @@ const BurgerConstructor = () => {
   }
 
   const totalPrice = useMemo(() => {
+    let price = 0
     if (builderBun) {
-      const priceIngredients = builderIngredients.reduce((sum, ingredient) => sum + ingredient.price, 0)
-      return builderBun.price + priceIngredients
+      price += builderBun.price
     }
+    return price + builderIngredients.reduce((sum, ingredient) => sum + ingredient.price, 0)
   }, [builderIngredients, builderBun])
 
   const containerClasses = `
@@ -89,7 +89,7 @@ const BurgerConstructor = () => {
         /> 
       )}
 
-      {builderBun && (
+      {(builderBun || builderIngredients.length > 0) && (
         <div className={`${styles.total} mt-10`}>
           <div className={`${styles.price} mr-10`}>
             <span className="text text_type_digits-medium">{totalPrice}</span>
