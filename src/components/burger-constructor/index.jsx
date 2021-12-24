@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react'
 import styles from './styles.module.css';
+import { useNavigate } from 'react-router-dom'
 import { DragIcon, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components'
 import OrderDetails from 'components/order-details'
 import Modal from 'components/modal'
@@ -10,10 +11,12 @@ import { useSelector, useDispatch } from 'react-redux'
 import { useDrag, useDrop } from 'react-dnd'
 
 const BurgerConstructor = () => {
+  const { isAuth } = useSelector(store => store.user)
   const { ingredients } = useSelector(store => store.ingredients)
   const { builderIngredients, builderBun } = useSelector(store => store.builder)
   const { order } = useSelector(store => store.order)
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const [{ isOver }, dropRef] = useDrop({
     accept: ['bun', 'sauce', 'main'],
@@ -31,7 +34,11 @@ const BurgerConstructor = () => {
   })
 
   const orderHandler = () => {
-    dispatch(postOrder(builderBun ? [builderBun].concat(builderIngredients) : builderIngredients))
+    if (isAuth) {
+      dispatch(postOrder(builderBun ? [builderBun].concat(builderIngredients) : builderIngredients))
+    } else {
+      navigate('/login')
+    }
   }
 
   const closeOrderPopup = () => {

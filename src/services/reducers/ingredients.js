@@ -5,6 +5,7 @@ import {
 } from '../actions/ingredients'
 
 const ingredientsInitialState = {
+  isInitRequested: false,
   ingredients: [],
   isIngredientsGetLoading: false,
   isIngredientsGetFailed: false
@@ -21,14 +22,15 @@ export const ingredientsReducer = (state = ingredientsInitialState, action) => {
     case GET_INGREDIENTS_FAILED: {
       return {
         ...ingredientsInitialState,
-        isIngredientsGetFailed: true
+        isIngredientsGetFailed: true,
+        isInitRequested: true
       }
     }    
     case GET_INGREDIENTS_SUCCESS: {
       return {
-        ...state,
         isIngredientsGetLoading: false,
         isIngredientsGetFailed: false,
+        isInitRequested: true,
         ingredients: action.payload
       }
     } 

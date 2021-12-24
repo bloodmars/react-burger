@@ -1,0 +1,17 @@
+.form {
+  margin: auto;
+  text-align: center;
+  width: 480px;
+}
+
+.bottom {
+  color: rgba(133, 133, 173, 1);
+}
+
+.bottom a {
+  color:  rgba(76, 76, 255, 1);
+}
+
+.error {
+  color: var(--colors-interface-error);
+}

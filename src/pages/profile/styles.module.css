@@ -1,0 +1,60 @@
+.form {
+  margin: 120px auto;
+  text-align: center;
+  width: 480px;
+  position: relative;
+}
+
+.nav {
+  width: 320px;
+  position: absolute;
+  right: 100%;
+  margin-right: 60px;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+}
+
+.error {
+  color: var(--colors-interface-error);
+  text-align: right;
+}
+
+.bottom {
+  position: absolute;
+  right: 0px;
+}
+
+.selected {
+  color: #fff;
+  text-decoration: none;
+}
+
+.link {
+  text-decoration: none;
+}
+
+.link span {
+  transition: color 0.2s ease;
+}
+
+.link:hover span {
+  color: #fff;
+}
+
+.selected span {
+  color: #fff;
+}
+
+.info {
+  opacity: 0.4;
+}
+
+.cancel {
+  cursor: pointer;
+  color: rgba(76, 76, 255, 1);
+}
+
+.cancel:hover {
+  text-decoration: underline;
+}

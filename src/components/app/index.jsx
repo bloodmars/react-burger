@@ -1,41 +1,116 @@
 import React, { useEffect, useState } from 'react'
-import styles from './styles.module.css'
-import AppHeader from 'components/app-header'
-import BurgerConstructor from 'components/burger-constructor'
-import BurgerIngredients from 'components/burger-ingredients'
+import { BrowserRouter, Routes, Route, useLocation, useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { getUser } from 'services/actions/user/get'
 import { getIngredients } from 'services/actions/ingredients'
-import { DndProvider } from 'react-dnd'
-import { HTML5Backend } from 'react-dnd-html5-backend'
-import { useSelector, useDispatch } from 'react-redux'
+import AppHeader from 'components/app-header'
+import ProtectedRoute from 'components/protected-route'
+import ConstructorPage from 'pages/constructor'
+import LoginPage from 'pages/login'
+import RegisterPage from 'pages/register'
+import ForgotPasswordPage from 'pages/forgot-password'
+import ResetPasswordPage from 'pages/reset-password'
+import ProfilePage from 'pages/profile'
+import ProfileOrdersPage from 'pages/profile-orders'
+import NotFoundPage from 'pages/not-found'
+import Modal from 'components/modal'
+import IngredientDetails from 'components/ingredient-details'
+import styles from './styles.module.css'
 
 const App = () => {
-  const dispatch = useDispatch()
-  const { ingredients, isIngredientsGetFailed } = useSelector(store => store.ingredients)
+  const RouterSwitch = () => {
+    const dispatch = useDispatch()
+    const location = useLocation()
+    const navigate = useNavigate()
 
-  useEffect(() => {
-    dispatch(getIngredients())
-  }, [dispatch])
+    useEffect(() => {
+      dispatch(getUser())
+      dispatch(getIngredients())
+    }, [dispatch])
 
-  if (isIngredientsGetFailed) {
+    const background = location.state && location.state.background
+
+    const { isInitRequested: isUserLoaded } = useSelector(store => store.user)
+    const { isInitRequested: isIngredientsLoaded, 
+      isIngredientsGetFailed } = useSelector(store => store.ingredients)
+
+    const handleModalClose = () => {
+      navigate('/')
+    }
+
     return (
-      <div className={`${styles.error} text text_type_main-default`}>Упс, у нас проблемы с API: {isIngredientsGetFailed}</div>
+      <>
+        <AppHeader />      
+        <main className={styles.main}>
+          {isUserLoaded && isIngredientsLoaded && (
+            <>
+              {isIngredientsGetFailed ? (
+                <div className={`${styles.error} text text_type_main-default`}>Упс, у нас проблемы с API</div>
+              ) : (
+                <>
+                  <Routes location={background || location}>
+                    <Route path='*' element={<NotFoundPage />} />
+                    <Route path="/" element={<ConstructorPage />} />
+                    <Route path="/profile" element={
+                      <ProtectedRoute onlyAuth={true}>
+                        <ProfilePage />
+                      </ProtectedRoute>
+                    }/>
+                    <Route path="/profile/orders" element={
+                      <ProtectedRoute onlyAuth={true}>
+                        <ProfileOrdersPage />
+                      </ProtectedRoute>
+                    }/>                     
+                    <Route path="/login" element={
+                      <ProtectedRoute onlyNonAuth={true}>
+                        <LoginPage />
+                      </ProtectedRoute>
+                    }/>
+                    <Route path="/register" element={
+                      <ProtectedRoute onlyNonAuth={true}>
+                        <RegisterPage />
+                      </ProtectedRoute>
+                    }/>
+                    <Route path="/forgot-password" element={
+                      <ProtectedRoute onlyNonAuth={true}>
+                        <ForgotPasswordPage />
+                      </ProtectedRoute>
+                    }/>
+                    <Route path="/reset-password" element={
+                      <ProtectedRoute onlyNonAuth={true}>
+                        <ResetPasswordPage />
+                      </ProtectedRoute>
+                    }/>
+                    <Route path='/ingredients/:id' element={
+                      <IngredientDetails />
+                    }/>            
+                  </Routes>
+
+                  {background && (     
+                    <Routes>
+                      <Route
+                        path='/ingredients/:id'
+                        element={
+                          <Modal onClose={handleModalClose} title="Детали ингредиента">
+                            <IngredientDetails />
+                          </Modal>
+                        }
+                      />     
+                    </Routes>
+                  )}                
+                </>            
+              )}
+            </>
+          )}
+        </main>
+      </>
     )
   }
 
   return (
-    <>
-      <AppHeader />
-      <main className={styles.main}>
-        <DndProvider backend={HTML5Backend}>
-          <section className={styles.section}>
-            <BurgerIngredients />
-          </section >
-          <section className={`${styles.section} ${styles.right} pt-25 pb-10 pr-4`}>
-            <BurgerConstructor /> 
-          </section>
-        </DndProvider>
-      </main>
-    </>
+    <BrowserRouter>
+      <RouterSwitch />
+    </BrowserRouter>
   )
 }
 

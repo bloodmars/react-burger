@@ -1,4 +1,4 @@
-import { API_BASE_URL } from '../api';
+import { API_BASE_URL } from 'services/api';
 
 export const GET_INGREDIENTS_REQUEST = 'GET_INGREDIENTS_REQUEST'
 export const GET_INGREDIENTS_SUCCESS = 'GET_INGREDIENTS_SUCCESS'
