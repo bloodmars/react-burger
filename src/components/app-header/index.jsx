@@ -25,7 +25,11 @@ const AppHeader = () => {
             </NavLink>     
           </nav>
         </div>
-        <div className={styles.middle}><Logo /></div>
+        <div className={styles.middle}>
+          <Link to="/">
+            <Logo />
+          </Link>
+        </div>
         <div className={styles.right}>
           <nav className={styles.nav}>
             <NavLink

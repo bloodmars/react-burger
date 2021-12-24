@@ -21,12 +21,12 @@ const ResetPasswordPage = () => {
     if (!resetStep) {
       navigate('/forgot-password')
     } else {
-      if (resetStep == 2) {
+      if (resetStep === 2) {
         navigate('/login')
         dispatch({ type: RESET_DONE })
       }
     }
-  }, [resetStep])
+  }, [dispatch, navigate, resetStep])
 
   const isPasswordValid = password => {
     return password.length >= 6

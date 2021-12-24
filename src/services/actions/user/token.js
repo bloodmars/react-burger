@@ -1,5 +1,5 @@
 import { API_BASE_URL } from 'services/api';
-import { setCookie, getCookie } from 'services/utils'
+import { setCookie, getCookie, checkResponse } from 'services/utils'
 
 export const TOKEN_REQUEST = 'TOKEN_REQUEST'
 export const TOKEN_SUCCESS = 'TOKEN_SUCCESS'
@@ -18,18 +18,7 @@ export function refreshToken(callback) {
       },  
       body: JSON.stringify({token: getCookie('refreshToken')})
     })
-    .then(async response => {
-      if (response.ok) {
-        return response.json()
-      } else {
-        let message = 'Something went wrong'
-        try {
-          const responseJson = await response.json()
-          message = responseJson.message
-        } catch(e) {}
-        throw new Error(message)
-      }
-    })
+    .then(checkResponse)
     .then(data => {
       setCookie('accessToken', data.accessToken)
       setCookie('refreshToken', data.refreshToken)

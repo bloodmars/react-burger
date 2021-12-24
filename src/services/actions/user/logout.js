@@ -1,5 +1,5 @@
 import { API_BASE_URL } from 'services/api'
-import { getCookie, deleteCookie } from 'services/utils'
+import { getCookie, deleteCookie, checkResponse } from 'services/utils'
 
 export const LOGOUT_REQUEST = 'LOGOUT_REQUEST'
 export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS'
@@ -18,18 +18,7 @@ export function logoutUser() {
       },
       body: JSON.stringify({token: getCookie('refreshToken')})
     })
-    .then(async response => {
-      if (response.ok) {
-        return response.json()
-      } else {
-        let message = 'Something went wrong'
-        try {
-          const responseJson = await response.json()
-          message = responseJson.message
-        } catch(e) {}
-        throw new Error(message)
-      }
-    })
+    .then(checkResponse)
     .then(data => {
       deleteCookie('accessToken')
       deleteCookie('refreshToken')

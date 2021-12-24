@@ -1,20 +1,20 @@
-import React, { useState, useMemo, useEffect } from 'react'
+import React, { useMemo } from 'react'
 import styles from './styles.module.css';
 import { useNavigate } from 'react-router-dom'
-import { DragIcon, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components'
+import { CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components'
 import OrderDetails from 'components/order-details'
 import Modal from 'components/modal'
 import ConstructorElement from 'components/constructor-element'
 import { postOrder, ORDER_CLOSE } from 'services/actions/order'
 import { BUILDER_SET_BUN, BUILDER_ADD_ITEM } from 'services/actions/builder'
 import { useSelector, useDispatch } from 'react-redux'
-import { useDrag, useDrop } from 'react-dnd'
+import { useDrop } from 'react-dnd'
 
 const BurgerConstructor = () => {
   const { isAuth } = useSelector(store => store.user)
   const { ingredients } = useSelector(store => store.ingredients)
   const { builderIngredients, builderBun } = useSelector(store => store.builder)
-  const { order } = useSelector(store => store.order)
+  const { order, orderRequest } = useSelector(store => store.order)
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
@@ -35,7 +35,7 @@ const BurgerConstructor = () => {
 
   const orderHandler = () => {
     if (isAuth) {
-      dispatch(postOrder(builderBun ? [builderBun].concat(builderIngredients) : builderIngredients))
+      dispatch(postOrder([builderBun].concat(builderIngredients)))
     } else {
       navigate('/login')
     }
@@ -96,13 +96,16 @@ const BurgerConstructor = () => {
         /> 
       )}
 
-      {(builderBun || builderIngredients.length > 0) && (
+      {builderBun && (
         <div className={`${styles.total} mt-10`}>
           <div className={`${styles.price} mr-10`}>
             <span className="text text_type_digits-medium">{totalPrice}</span>
             <CurrencyIcon type="primary" />
           </div>
-          <Button type="primary" size="large" onClick={orderHandler}>Оформить заказ</Button>
+          {orderRequest
+            ? <Button type="primary" size="large">Подождите...</Button>
+            : <Button type="primary" size="large" onClick={orderHandler}>Оформить заказ</Button>
+          }
         </div>        
       )}
 

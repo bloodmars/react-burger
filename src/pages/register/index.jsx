@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components'
 import { postRegister } from 'services/actions/user/register'
 import { useSelector, useDispatch } from 'react-redux'
@@ -15,7 +15,7 @@ const RegisterPage = () => {
   const [passwordVisible, setPasswordVisible] = useState(false)
 
   const dispatch = useDispatch()
-  const navigate = useNavigate()
+
   const { registerRequest, registerFailed, registerFailedMessage } = useSelector(store => store.userRegister)
 
   const isEmailValid = email => {

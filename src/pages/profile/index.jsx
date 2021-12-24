@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react'
-import { Link, NavLink, useNavigate } from 'react-router-dom'
+import React, { useState, useRef } from 'react'
+import { NavLink } from 'react-router-dom'
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components'
 import { patchUser } from 'services/actions/user/patch'
 import { logoutUser } from 'services/actions/user/logout'
@@ -8,7 +8,7 @@ import styles from './styles.module.css'
 
 const ProfilePage = () => {
   const dispatch = useDispatch()
-  const navigate = useNavigate()
+
   const { name: userName, email: userEmail  } = useSelector(store => store.user)
 
   const [name, setName] = useState(userName)

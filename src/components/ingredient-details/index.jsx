@@ -1,6 +1,6 @@
 import React from 'react'
 import { useParams, useLocation } from 'react-router-dom'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './styles.module.css'
 

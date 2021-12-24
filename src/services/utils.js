@@ -31,3 +31,16 @@ export function setCookie(name, value, props) {
 export function deleteCookie(name) {
   setCookie(name, null, { expires: -1 });
 }
+
+export async function checkResponse(response) {
+  if (response.ok) {
+    return response.json()
+  } else {
+    let message = 'Something went wrong'
+    try {
+      const responseJson = await response.json()
+      message = responseJson.message
+    } catch(e) {}
+    throw new Error(message)
+  }
+}

@@ -1,5 +1,5 @@
 import { API_BASE_URL } from 'services/api'
-import { setCookie } from 'services/utils'
+import { setCookie, checkResponse } from 'services/utils'
 
 export const LOGIN_REQUEST = 'LOGIN_REQUEST'
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
@@ -18,18 +18,7 @@ export function postLogin(formData) {
       },
       body: JSON.stringify(formData)      
     })
-    .then(async response => {
-      if (response.ok) {
-        return response.json()
-      } else {
-        let message = 'Something went wrong'
-        try {
-          const responseJson = await response.json()
-          message = responseJson.message
-        } catch(e) {}
-        throw new Error(message)
-      }
-    })
+    .then(checkResponse)
     .then(data => {
       setCookie('accessToken', data.accessToken)
       setCookie('refreshToken', data.refreshToken)

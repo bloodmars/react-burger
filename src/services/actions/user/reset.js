@@ -1,4 +1,5 @@
 import { API_BASE_URL } from 'services/api';
+import { checkResponse } from 'services/utils'
 
 export const FORGOT_REQUEST = 'FORGOT_REQUEST'
 export const FORGOT_SUCCESS = 'FORGOT_SUCCESS'
@@ -22,18 +23,7 @@ export function postForgot(formData) {
       },
       body: JSON.stringify(formData) 
     })
-    .then(async response => {
-      if (response.ok) {
-        return response.json()
-      } else {
-        let message = 'Something went wrong'
-        try {
-          const responseJson = await response.json()
-          message = responseJson.message
-        } catch(e) {}
-        throw new Error(message)
-      }
-    })
+    .then(checkResponse)
     .then(data => dispatch({
       type: FORGOT_SUCCESS
     }))

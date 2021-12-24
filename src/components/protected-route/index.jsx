@@ -1,7 +1,7 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Navigate, useLocation } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-import { getUser } from 'services/actions/user/get'
 
 const ProtectedRoute = ({ onlyAuth = null, onlyNonAuth = null, children }) => { 
   const { isAuth } = useSelector(store => store.user)
@@ -20,6 +20,12 @@ const ProtectedRoute = ({ onlyAuth = null, onlyNonAuth = null, children }) => {
   }
 
   return children
+}
+
+ProtectedRoute.propTypes = {
+  onlyAuth: PropTypes.bool,
+  onlyNonAuth: PropTypes.bool,
+  children: PropTypes.object
 }
 
 export default ProtectedRoute

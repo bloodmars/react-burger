@@ -3,13 +3,12 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import styles from './styles.module.css'
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 import Ingredient from 'components/ingredient'
-import Modal from 'components/modal'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 
 const BurgerIngredients = () => {
   const [activeTab, setActiveTab] = useState('bun')
   const { ingredients } = useSelector(store => store.ingredients)
-  const dispatch = useDispatch()
+
   const navigate = useNavigate()
   const location = useLocation()
 

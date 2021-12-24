@@ -1,5 +1,5 @@
 import { API_BASE_URL } from 'services/api'
-import { getCookie } from 'services/utils'
+import { getCookie, checkResponse } from 'services/utils'
 import { refreshToken } from './token'
 
 import { USER_SKIP_REQUEST } from '../user'
@@ -29,18 +29,7 @@ export function getUser() {
         authorization: getCookie('accessToken')
       }    
     })
-    .then(async response => {
-      if (response.ok) {
-        return response.json()
-      } else {
-        let message = 'Something went wrong'
-        try {
-          const responseJson = await response.json()
-          message = responseJson.message
-        } catch(e) {}
-        throw new Error(message)
-      }
-    })
+    .then(checkResponse)
     .then(data => dispatch({
       type: GET_USER_SUCCESS, 
       payload: data

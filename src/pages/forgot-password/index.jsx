@@ -14,10 +14,10 @@ const ForgotPasswordPage = () => {
   const { forgotRequest, resetStep, forgotFailed, forgotFailedMessage } = useSelector(store => store.userReset)
 
   useEffect(() => {
-    if (resetStep == 1) {
+    if (resetStep === 1) {
       navigate('/reset-password')
     }
-  }, [resetStep])
+  }, [navigate, resetStep])
 
   const isEmailValid = email => {
     return email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)
