@@ -5,6 +5,8 @@ import {
   REORDER_ITEM
 } from '../actions/builder'
 
+import { ORDER_SUCCESS } from '../actions/order'
+
 const builderInitialState = {
   builderBun: null,
   builderIngredients: []
@@ -12,6 +14,11 @@ const builderInitialState = {
 
 export const builderReducer = (state = builderInitialState, action) => {
   switch (action.type) {
+    case ORDER_SUCCESS: {
+      return {
+        ...builderInitialState
+      }
+    }
     case BUILDER_SET_BUN: {
       return {
         ...state,

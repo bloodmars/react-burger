@@ -1,0 +1,1 @@
+export const USER_SKIP_REQUEST = 'USER_SKIP_REQUEST'

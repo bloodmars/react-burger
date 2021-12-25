@@ -6,24 +6,6 @@
   height: calc(100vh - 96px);
 }
 
-.section {
-  flex-basis: 600px;
-  height: 100%;
-  box-sizing: border-box;
-}
-
-.right {
-  text-align: right;
-}
-
-.right > div {
-  margin-right: 16px;
-}
-
-.right .constructor-element {
-  width:  50px;
-}
-
 .error {
   margin: auto!important;
 }

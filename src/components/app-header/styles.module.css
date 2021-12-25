@@ -36,3 +36,11 @@
 .selected {
   color: #F2F2F2;
 }
+
+.selected svg {
+  fill: #F2F2F3;
+}
+
+.selected span {
+  color: #fff;
+}

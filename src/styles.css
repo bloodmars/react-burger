@@ -5,3 +5,7 @@
 body {
   overflow: hidden;
 }
+
+.input_size_default {
+  width: 480px;
+}

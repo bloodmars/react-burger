@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link, NavLink } from 'react-router-dom'
 import { BurgerIcon, Logo, ListIcon, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './styles.module.css'
 
@@ -8,23 +9,36 @@ const AppHeader = () => {
       <div className={styles.container}>
         <div className={styles.left}>
           <nav className={styles.nav}>
-            <a href="#page" className={`${styles.selected} p-5`}>
-              <BurgerIcon type="primary" />
-              <span className="text text_type_main-default ml-4">Конструктор</span>
-            </a>
-            <a href="#page" className="p-5 ml-4">
+            <NavLink
+              to="/"
+              className={({ isActive }) => isActive ? `${styles.selected} p-5` : 'p-5'}
+            >
+              <BurgerIcon type="secondary" />
+              <span className="text text_type_main-default text_color_inactive ml-4">Конструктор</span>
+            </NavLink>
+            <NavLink
+              to="#"
+              className={({ isActive }) => isActive ? `p-5 ml-4` : 'p-5 ml-4'}
+            >            
               <ListIcon type="secondary" />
               <span className="text text_type_main-default text_color_inactive ml-4">Лента заказов</span>
-            </a>       
+            </NavLink>     
           </nav>
         </div>
-        <div className={styles.middle}><Logo /></div>
+        <div className={styles.middle}>
+          <Link to="/">
+            <Logo />
+          </Link>
+        </div>
         <div className={styles.right}>
           <nav className={styles.nav}>
-            <a href="#page" className="p-5">
+            <NavLink
+              to="/profile"
+              className={({ isActive }) => isActive ? `${styles.selected} p-5` : 'p-5'}
+            >
               <ProfileIcon type="secondary" />
               <span className="text text_type_main-default text_color_inactive ml-4">Личный кабинет</span>
-            </a>    
+            </NavLink>  
           </nav>
         </div>
       </div>

@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react'
+import PropTypes from 'prop-types'
 import styles from './styles.module.css'
 import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components'
 import { useDrag } from 'react-dnd'
@@ -20,7 +21,7 @@ const Ingredient = ({ onClick, _id, type, image, price, name }) => {
         return ingredient._id === _id ? total + 1 : total
       }, 0)
     }
-  }, [builderBun, builderIngredients])
+  }, [type, _id, builderBun, builderIngredients])
 
   return (
     <div className={`${styles.ingredient} mb-8`} onClick={onClick}>
@@ -35,6 +36,15 @@ const Ingredient = ({ onClick, _id, type, image, price, name }) => {
       </div>
     </div>
   )
+}
+
+Ingredient.propTypes = {
+  onClick: PropTypes.func,
+  _id: PropTypes.string,
+  type: PropTypes.string,
+  image: PropTypes.string,
+  price: PropTypes.number,
+  name: PropTypes.string
 }
 
 export default Ingredient

@@ -1,4 +1,5 @@
 import React, { useRef } from 'react'
+import PropTypes from 'prop-types'
 import styles from './styles.module.css';
 import { ConstructorElement as ConstructorElementBase, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import { REORDER_ITEM, BUILDER_REMOVE_ITEM } from 'services/actions/builder'
@@ -41,12 +42,9 @@ const ConstructorElement = ({ isLocked, type, text, price, thumbnail, index }) =
     },
   })
 
-  const [{ isDragging }, drag] = useDrag({
+  const [, drag] = useDrag({
       type: 'order',
-      item: { index },
-      collect: (monitor) => ({
-        isDragging: monitor.isDragging()
-      })
+      item: { index }
   })
 
   const removeIngredientHandler = () => {
@@ -77,4 +75,14 @@ const ConstructorElement = ({ isLocked, type, text, price, thumbnail, index }) =
   )
 }
 
+ConstructorElement.propTypes = {
+  isLocked: PropTypes.bool,
+  type: PropTypes.string,
+  text: PropTypes.string,
+  price: PropTypes.number,
+  thumbnail: PropTypes.string,
+  index: PropTypes.number
+}
+
 export default ConstructorElement
+

@@ -1,33 +1,27 @@
 import React, { useState, useRef, useEffect } from 'react'
+import { useNavigate, useLocation } from 'react-router-dom'
 import styles from './styles.module.css'
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 import Ingredient from 'components/ingredient'
-import IngredientDetails from 'components/ingredient-details'
-import Modal from 'components/modal'
-import { SHOW_INGREDIENT_DETAILS, HIDE_INGREDIENT_DETAILS } from 'services/actions/modals'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 
 const BurgerIngredients = () => {
   const [activeTab, setActiveTab] = useState('bun')
   const { ingredients } = useSelector(store => store.ingredients)
-  const { ingredientDetails } = useSelector(store => store.modals)
-  const dispatch = useDispatch()
+
+  const navigate = useNavigate()
+  const location = useLocation()
 
   const scroller = useRef(null)
   const sectionBun = useRef(null)
   const sectionSauce = useRef(null)
   const sectionMain = useRef(null)
 
-  const showIngredientDetailsPopup = (ingredient) => {
-    dispatch({
-      type: SHOW_INGREDIENT_DETAILS,
-      payload: ingredient
-    })
-  }
-
-  const closeIngredientDetailsPopup = () => {
-    dispatch({
-      type: HIDE_INGREDIENT_DETAILS
+  const goToIngredient = id => {
+    navigate(`/ingredients/${id}`, { 
+      state: { 
+        background: location.pathname 
+      } 
     })
   }
 
@@ -76,7 +70,7 @@ const BurgerIngredients = () => {
           <Ingredient 
             {...ingredient} 
             key={ingredient._id} 
-            onClick={() => showIngredientDetailsPopup(ingredient)} 
+            onClick={() => goToIngredient(ingredient._id)} 
           />
         ))}
       </div>
@@ -105,12 +99,6 @@ const BurgerIngredients = () => {
           {getIngredientSection('main')}
         </div>
       </div>
-
-      {ingredientDetails && (
-        <Modal onClose={closeIngredientDetailsPopup} title="Детали ингредиента">
-          <IngredientDetails ingredient={ingredientDetails} />
-        </Modal>
-      )}
     </>
   )
 }
