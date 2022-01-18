@@ -1,9 +1,12 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, { FC } from 'react'
 import styles from './styles.module.css'
 import OrderIcon from 'images/order.gif'
 
-const OrderDetails = ({ number }) => { 
+interface IProps {
+  number: string;
+}
+
+const OrderDetails: FC<IProps> = ({ number }) => { 
   return (
     <div className={styles.container}>
       <div className={`${styles.number} mt-4 mb-8 text text_type_digits-large`}>{number}</div>
@@ -13,10 +16,6 @@ const OrderDetails = ({ number }) => {
       <div className={`${styles.wait} text text_type_main-default mb-30`}>Дождитесь готовности на орбитальной станции</div>
     </div>
   )
-}
-
-OrderDetails.propTypes = {
-  number: PropTypes.number
 }
 
 export default OrderDetails

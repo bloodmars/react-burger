@@ -1,14 +1,14 @@
-import React from 'react'
+import React, { FC } from 'react'
 import { NavLink } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { logoutUser } from 'services/actions/user/logout'
 import styles from './styles.module.css'
 
-const ProfileOrdersPage = () => {
+const ProfileOrdersPage: FC = () => {
   const dispatch = useDispatch()
-  const { logoutRequest } = useSelector(store => store.userLogout)
+  const { logoutRequest } = useSelector((store: { userLogout: any }) => store.userLogout)
 
-  const logoutHandler = e => {
+  const logoutHandler = (e: React.MouseEvent<HTMLElement>) => {
     if (logoutRequest) {
       return
     }

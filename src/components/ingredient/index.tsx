@@ -1,12 +1,21 @@
-import React, { useMemo } from 'react'
-import PropTypes from 'prop-types'
+import React, { FC, useMemo } from 'react'
 import styles from './styles.module.css'
 import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components'
 import { useDrag } from 'react-dnd'
 import { useSelector } from 'react-redux'
+import IIngredient from 'interfaces/ingredient'
 
-const Ingredient = ({ onClick, _id, type, image, price, name }) => {
-  const { builderIngredients, builderBun } = useSelector(store => store.builder)
+interface IProps {
+  onClick: () => void;
+  _id: string;
+  type: string;
+  image: string;
+  price: number;
+  name: string;
+}
+
+const Ingredient: FC<IProps> = ({ onClick, _id, type, image, price, name }) => {
+  const { builderIngredients, builderBun } = useSelector((store: { builder: any }) => store.builder)
 
   const [, dragRef] = useDrag({
     type: type,
@@ -17,7 +26,7 @@ const Ingredient = ({ onClick, _id, type, image, price, name }) => {
     if (type === 'bun') {
       return (builderBun && builderBun._id === _id) ? 1 : 0
     } else {
-      return builderIngredients.reduce((total, ingredient) => { 
+      return builderIngredients.reduce((total: number, ingredient: IIngredient) => { 
         return ingredient._id === _id ? total + 1 : total
       }, 0)
     }
@@ -36,15 +45,6 @@ const Ingredient = ({ onClick, _id, type, image, price, name }) => {
       </div>
     </div>
   )
-}
-
-Ingredient.propTypes = {
-  onClick: PropTypes.func,
-  _id: PropTypes.string,
-  type: PropTypes.string,
-  image: PropTypes.string,
-  price: PropTypes.number,
-  name: PropTypes.string
 }
 
 export default Ingredient

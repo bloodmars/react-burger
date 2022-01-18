@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { FC } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './styles.module.css'
 
-const NotFoundPage = () => {
+const NotFoundPage: FC = () => {
   const navigate = useNavigate()
 
   const goToIndexPage = () => {

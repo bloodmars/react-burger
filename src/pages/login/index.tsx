@@ -1,84 +1,62 @@
-import React, { useState } from 'react'
+import React, { FC, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components'
-import { postRegister } from 'services/actions/user/register'
+import { postLogin } from 'services/actions/user/login'
 import { useSelector, useDispatch } from 'react-redux'
 import styles from './styles.module.css'
 
-const RegisterPage = () => {
-  const [name, setName] = useState('')
+const LoginPage: FC = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [nameError, setNameError] = useState(false)
   const [emailError, setEmailError] = useState(false)
   const [passwordError, setPasswordError] = useState(false)
   const [passwordVisible, setPasswordVisible] = useState(false)
 
   const dispatch = useDispatch()
+  const { loginRequest, loginFailed, loginFailedMessage } = useSelector((store: { userLogin: any }) => store.userLogin)
 
-  const { registerRequest, registerFailed, registerFailedMessage } = useSelector(store => store.userRegister)
-
-  const isEmailValid = email => {
+  const isEmailValid = (email: string) => {
     return email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)
   }
 
-  const isPasswordValid = password => {
+  const isPasswordValid = (password: string) => {
     return password.length >= 6
   }
 
-  const onNameChange = e => {
-    const value = e.target.value
-    setName(value)
-    setNameError(value ? false : true)
-  }
-
-  const onEmailChange = e => {
+  const onEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
     setEmail(value)
     setEmailError(isEmailValid(value) ? false : true)
   }
 
-  const onPasswordChange = e => {
+  const onPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
     setPassword(value)
     setPasswordError(isPasswordValid(value) ? false : true)
   }
 
-  const onIconClickPasswordHandle = e => {
+  const onIconClickPasswordHandle = (e: React.MouseEvent<HTMLElement>) => {
     setPasswordVisible(!passwordVisible)
   }
 
-  const submitHandler = e => {
+  const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    if (registerRequest) {
+    if (loginRequest) {
       return
     }
 
-    if (name && isEmailValid(email) && isPasswordValid(password)) {
-      dispatch(postRegister({ name, email, password }))
+    if (isEmailValid(email) && isPasswordValid(password)) {
+      dispatch(postLogin({ email, password }))
     } else {
-      setNameError(name ? false : true)
       setEmailError(isEmailValid(email) ? false : true)
       setPasswordError(isPasswordValid(password) ? false : true)
     }
-  }
+  }    
 
   return (
     <form className={styles.form} onSubmit={submitHandler}>
-      <h2 className="text text_type_main-medium mb-6">Регистрация</h2>
-
-      <div className="mb-6">
-        <Input
-          type="text"
-          placeholder="Имя"
-          onChange={onNameChange}
-          value={name}
-          name="name"
-          error={nameError}
-          errorText={'Обязательное поле'}          
-        />
-      </div>
+      <h2 className="text text_type_main-medium mb-6">Вход</h2>
 
       <div className="mb-6">
         <Input
@@ -107,18 +85,22 @@ const RegisterPage = () => {
       </div>
 
       <div className="mb-20">
-        <Button type="primary" size="medium">Зарегистрироваться</Button>        
+        <Button type="primary" size="medium">Войти</Button>
 
-        {registerFailed && (
-          <p className={`${styles.error} mt-4 text text_type_main-default`}>{registerFailedMessage}</p>
-        )} 
+        {loginFailed && (
+          <p className={`${styles.error} mt-4 text text_type_main-default`}>{loginFailedMessage}</p>
+        )}
       </div>
 
+      <p className={`${styles.bottom} mb-4 text text_type_main-default`}>
+        Вы — новый пользователь? <Link to="/register">Зарегистрироваться</Link>
+      </p>
+
       <p className={`${styles.bottom} text text_type_main-default`}>
-        Уже зарегистрированы? <Link to="/login">Войти</Link>
+        Забыли пароль? <Link to="/forgot-password">Восстановить пароль</Link>
       </p>
     </form>
   )
 }
 
-export default RegisterPage
+export default LoginPage

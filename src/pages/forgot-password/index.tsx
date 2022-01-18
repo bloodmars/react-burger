@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from 'react'
+import React, { FC, useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components'
 import { postForgot } from 'services/actions/user/reset'
 import { useSelector, useDispatch } from 'react-redux'
 import styles from './styles.module.css'
 
-const ForgotPasswordPage = () => {
+const ForgotPasswordPage: FC = () => {
   const [email, setEmail] = useState('')
   const [emailError, setEmailError] = useState(false)
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const { forgotRequest, resetStep, forgotFailed, forgotFailedMessage } = useSelector(store => store.userReset)
+  const { forgotRequest, resetStep, forgotFailed, forgotFailedMessage } = useSelector((store: { userReset: any }) => store.userReset)
 
   useEffect(() => {
     if (resetStep === 1) {
@@ -19,17 +19,17 @@ const ForgotPasswordPage = () => {
     }
   }, [navigate, resetStep])
 
-  const isEmailValid = email => {
+  const isEmailValid = (email: string) => {
     return email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)
   }
 
-  const onEmailChange = e => {
+  const onEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
     setEmail(value)
     setEmailError(isEmailValid(value) ? false : true)
   }
 
-  const submitHandler = e => {
+  const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
     if (forgotRequest) {

@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { FC } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import { BurgerIcon, Logo, ListIcon, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './styles.module.css'
 
-const AppHeader = () => {
+const AppHeader: FC = () => {
   return (
     <header className={`${styles.header} p-4`}>
       <div className={styles.container}>

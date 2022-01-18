@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { FC, useMemo } from 'react'
 import styles from './styles.module.css';
 import { useNavigate } from 'react-router-dom'
 import { CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components'
@@ -9,19 +9,20 @@ import { postOrder, ORDER_CLOSE } from 'services/actions/order'
 import { BUILDER_SET_BUN, BUILDER_ADD_ITEM } from 'services/actions/builder'
 import { useSelector, useDispatch } from 'react-redux'
 import { useDrop } from 'react-dnd'
+import IIngredient from 'interfaces/ingredient'
 
-const BurgerConstructor = () => {
-  const { isAuth } = useSelector(store => store.user)
-  const { ingredients } = useSelector(store => store.ingredients)
-  const { builderIngredients, builderBun } = useSelector(store => store.builder)
-  const { order, orderRequest } = useSelector(store => store.order)
+const BurgerConstructor: FC = () => {
+  const { isAuth } = useSelector((store: { user: any }) => store.user)
+  const { ingredients } = useSelector((store: { ingredients: any }) => store.ingredients)
+  const { builderIngredients, builderBun } = useSelector((store: { builder: any }) => store.builder)
+  const { order, orderRequest } = useSelector((store: { order: any }) => store.order)
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
   const [{ isOver }, dropRef] = useDrop({
     accept: ['bun', 'sauce', 'main'],
-    drop: (item) => {
-      const ingredient = ingredients.find(ingredient => ingredient._id === item._id)
+    drop: (item: IIngredient) => {
+      const ingredient = ingredients.find((ingredient: IIngredient) => ingredient._id === item._id)
       const actionType = ingredient.type === 'bun' ? BUILDER_SET_BUN : BUILDER_ADD_ITEM
       dispatch({
         type: actionType,
@@ -52,7 +53,7 @@ const BurgerConstructor = () => {
     if (builderBun) {
       price += builderBun.price
     }
-    return price + builderIngredients.reduce((sum, ingredient) => sum + ingredient.price, 0)
+    return price + builderIngredients.reduce((sum: number, ingredient: IIngredient) => sum + ingredient.price, 0)
   }, [builderIngredients, builderBun])
 
   const containerClasses = `
@@ -74,7 +75,7 @@ const BurgerConstructor = () => {
       )}
 
       <div className={styles.scroller}>
-        {builderIngredients.map((ingredient, index) => (
+        {builderIngredients.map((ingredient: IIngredient, index: number) => (
           <ConstructorElement
             isLocked={false}
             text={ingredient.name}

@@ -1,23 +1,24 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { FC, useState, useRef, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import styles from './styles.module.css'
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 import Ingredient from 'components/ingredient'
 import { useSelector } from 'react-redux'
+import IIngredient from 'interfaces/ingredient'
 
-const BurgerIngredients = () => {
+const BurgerIngredients: FC = () => {
   const [activeTab, setActiveTab] = useState('bun')
-  const { ingredients } = useSelector(store => store.ingredients)
+  const { ingredients } = useSelector((store: { ingredients: any }) => store.ingredients)
 
   const navigate = useNavigate()
   const location = useLocation()
 
-  const scroller = useRef(null)
-  const sectionBun = useRef(null)
-  const sectionSauce = useRef(null)
-  const sectionMain = useRef(null)
+  const scroller = useRef<HTMLDivElement>(null)
+  const sectionBun = useRef<HTMLDivElement>(null)
+  const sectionSauce = useRef<HTMLDivElement>(null)
+  const sectionMain = useRef<HTMLDivElement>(null)
 
-  const goToIngredient = id => {
+  const goToIngredient = (id: string) => {
     navigate(`/ingredients/${id}`, { 
       state: { 
         background: location.pathname 
@@ -25,16 +26,22 @@ const BurgerIngredients = () => {
     })
   }
 
-  const tabHandler = (id) => {
+  const tabHandler = (id: string) => {
+    if (!scroller || !scroller.current) {
+      return
+    }
     const scrollerPos = scroller.current.offsetTop
-
     switch (id) {
       case 'main': {
-        scroller.current.scrollTop = sectionMain.current.offsetTop - scrollerPos
+        if (sectionMain && sectionMain.current) {
+          scroller.current.scrollTop = sectionMain.current.offsetTop - scrollerPos
+        }
         break
       }
       case 'sauce': {
-        scroller.current.scrollTop = sectionSauce.current.offsetTop - scrollerPos
+        if (sectionSauce && sectionSauce.current) {
+          scroller.current.scrollTop = sectionSauce.current.offsetTop - scrollerPos
+        }
         break
       }
       default: {
@@ -44,6 +51,11 @@ const BurgerIngredients = () => {
   }
 
   const scrollIngredientsEvent = () => {
+    if (!scroller || !scroller.current || 
+        !sectionSauce || !sectionSauce.current ||
+        !sectionMain || !sectionMain.current) {
+      return
+    }    
     const scrollerTop = scroller.current.scrollTop
     const scrollerPos = scroller.current.offsetTop
     const saucePos = sectionSauce.current.offsetTop - scrollerPos
@@ -59,14 +71,22 @@ const BurgerIngredients = () => {
   }
   
   useEffect(() => {
-    scroller.current.addEventListener('scroll', scrollIngredientsEvent);
-    return () => scroller.current.removeEventListener('scroll', scrollIngredientsEvent);  
+    if (!scroller || !scroller.current) {
+      return
+    }    
+    scroller.current.addEventListener('scroll', scrollIngredientsEvent)
+    return () => {
+      if (!scroller || !scroller.current) {
+        return
+      }      
+      scroller.current.removeEventListener('scroll', scrollIngredientsEvent)
+    }
   }, [scroller])
 
-  const getIngredientSection = (type) => {
+  const getIngredientSection = (type: string) => {
     return (
       <div className={`${styles.container} ml-4 mr-4 mt-6 mb-2`}>
-        {ingredients.filter(ingredient => ingredient.type === type).map(ingredient => (
+        {ingredients.filter((ingredient: IIngredient) => ingredient.type === type).map((ingredient: IIngredient) => (
           <Ingredient 
             {...ingredient} 
             key={ingredient._id} 
