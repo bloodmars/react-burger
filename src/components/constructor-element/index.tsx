@@ -1,32 +1,46 @@
-import React, { useRef } from 'react'
-import PropTypes from 'prop-types'
+import React, { FC, useRef } from 'react'
 import styles from './styles.module.css';
 import { ConstructorElement as ConstructorElementBase, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import { REORDER_ITEM, BUILDER_REMOVE_ITEM } from 'services/actions/builder'
 import { useDispatch } from 'react-redux'
 import { useDrag, useDrop } from 'react-dnd'
 
-const ConstructorElement = ({ isLocked, type, text, price, thumbnail, index }) => {
+interface IProps {
+  isLocked: boolean;
+  type?: 'top' | 'bottom';
+  text: string;
+  price: number;
+  thumbnail: string;
+  index?: number;
+}
+
+const ConstructorElement: FC<IProps> = ({ isLocked, type, text, price, thumbnail, index }) => {
   const dispatch = useDispatch()
-  const ref = useRef(null);
+  const ref = useRef<HTMLDivElement>(null);
 
   const [{ handlerId }, drop] = useDrop({
     accept: 'order',
     collect: (monitor) => ({
       handlerId: monitor.getHandlerId()
     }),
-    hover(item, monitor) {
+    hover(item: IProps, monitor) {
       if (!ref.current) {
         return
       }
       const dragIndex = item.index
       const hoverIndex = index
+      if (!dragIndex || !hoverIndex) {
+        return
+      }
       if (dragIndex === hoverIndex) {
         return
       }
-      const hoverBoundingRect = ref.current?.getBoundingClientRect()
+      const hoverBoundingRect = ref.current.getBoundingClientRect()
       const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
       const clientOffset = monitor.getClientOffset()
+      if (!clientOffset) {
+        return
+      }
       const hoverClientY = clientOffset.y - hoverBoundingRect.top
       if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
         return
@@ -73,15 +87,6 @@ const ConstructorElement = ({ isLocked, type, text, price, thumbnail, index }) =
       />  
     </div>
   )
-}
-
-ConstructorElement.propTypes = {
-  isLocked: PropTypes.bool,
-  type: PropTypes.string,
-  text: PropTypes.string,
-  price: PropTypes.number,
-  thumbnail: PropTypes.string,
-  index: PropTypes.number
 }
 
 export default ConstructorElement

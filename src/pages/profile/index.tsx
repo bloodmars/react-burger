@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { FC, useState, useRef } from 'react'
 import { NavLink } from 'react-router-dom'
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components'
 import { patchUser } from 'services/actions/user/patch'
@@ -6,10 +6,10 @@ import { logoutUser } from 'services/actions/user/logout'
 import { useSelector, useDispatch } from 'react-redux'
 import styles from './styles.module.css'
 
-const ProfilePage = () => {
+const ProfilePage: FC = () => {
   const dispatch = useDispatch()
 
-  const { name: userName, email: userEmail  } = useSelector(store => store.user)
+  const { name: userName, email: userEmail  } = useSelector((store: { user: any }) => store.user)
 
   const [name, setName] = useState(userName)
   const [email, setEmail] = useState(userEmail)
@@ -20,71 +20,71 @@ const ProfilePage = () => {
   const [nameDisabled, setNameDisabled] = useState(true)
   const [emailDisabled, setEmailDisabled] = useState(true)
   const [passwordDisabled, setPasswordDisabled] = useState(true)
-  const inputNameRef = useRef(null)
-  const inputEmailRef = useRef(null)
-  const inputPasswordRef = useRef(null)
+  const inputNameRef = useRef<HTMLInputElement>(null)
+  const inputEmailRef = useRef<HTMLInputElement>(null)
+  const inputPasswordRef = useRef<HTMLInputElement>(null)
   const [formEdited, setFormEdited] = useState(false)
 
-  const { userPatchRequest, userPatchFailed, userPatchFailedMessage } = useSelector(store => store.userPatch)
-  const { logoutRequest } = useSelector(store => store.userLogout)
+  const { userPatchRequest, userPatchFailed, userPatchFailedMessage } = useSelector((store: { userPatch: any }) => store.userPatch)
+  const { logoutRequest } = useSelector((store: { userLogout: any }) => store.userLogout)
 
-  const isEmailValid = email => {
+  const isEmailValid = (email: string) => {
     return email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)
   }
 
-  const isPasswordValid = password => {
+  const isPasswordValid = (password: string) => {
     return password.length === 0 || (password.length > 0 && password.length >= 6)
   }
 
-  const onNameChange = e => {
+  const onNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
     setName(value)
     setNameError(value ? false : true)
     setFormEdited(true)
   }
 
-  const onEmailChange = e => {
+  const onEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
     setEmail(value)
     setEmailError(isEmailValid(value) ? false : true)
     setFormEdited(true)
   }
 
-  const onPasswordChange = e => {
+  const onPasswordChange = (e: React.ChangeEvent<HTMLInputElement>)=> {
     const value = e.target.value
     setPassword(value)
     setPasswordError(isPasswordValid(value) ? false : true)
     setFormEdited(true)
   }
 
-  const onIconClickNameHandle = e => {
+  const onIconClickNameHandle = (e: React.MouseEvent<HTMLElement>) => {
     setNameDisabled(false)
     setTimeout(() => inputNameRef.current?.focus(), 0)
   }
 
-  const onIconClickEmailHandle = e => {
+  const onIconClickEmailHandle = (e: React.MouseEvent<HTMLElement>) => {
     setEmailDisabled(false)
     setTimeout(() => inputEmailRef.current?.focus(), 0)
   }
 
-  const onIconClickPasswordHandle = e => {
+  const onIconClickPasswordHandle = (e: React.MouseEvent<HTMLElement>) => {
     setPasswordDisabled(false)
     setTimeout(() => inputPasswordRef.current?.focus(), 0)
   }
 
-  const onNameBlur = e => {
+  const onNameBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     setNameDisabled(true)
   }
 
-  const onEmailBlur = e => {
+  const onEmailBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     setEmailDisabled(true)
   }
 
-  const onPasswordBlur = e => {
+  const onPasswordBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     setPasswordDisabled(true)
   }
 
-  const onCancelFormHandler = e => {
+  const onCancelFormHandler = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault()
     setFormEdited(false)
     setName(userName)
@@ -95,7 +95,7 @@ const ProfilePage = () => {
     setPassword('')
   }
 
-  const submitHandler = e => {
+  const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
     if (userPatchRequest) {
@@ -112,7 +112,7 @@ const ProfilePage = () => {
     }
   }
 
-  const logoutHandler = e => {
+  const logoutHandler = (e: React.MouseEvent<HTMLElement>) => {
     if (logoutRequest) {
       return
     }

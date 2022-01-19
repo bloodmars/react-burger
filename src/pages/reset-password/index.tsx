@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { FC, useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components'
 import { postReset } from 'services/actions/user/reset'
@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { RESET_DONE } from 'services/actions/user/reset'
 import styles from './styles.module.css'
 
-const ResetPasswordPage = () => {
+const ResetPasswordPage: FC = () => {
   const [token, setToken] = useState('')
   const [password, setPassword] = useState('')
   const [tokenError, setTokenError] = useState(false)
@@ -15,7 +15,7 @@ const ResetPasswordPage = () => {
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const { resetRequest, resetStep, resetFailed, resetFailedMessage } = useSelector(store => store.userReset)
+  const { resetRequest, resetStep, resetFailed, resetFailedMessage } = useSelector((store: { userReset: any }) => store.userReset)
 
   useEffect(() => {
     if (!resetStep) {
@@ -28,27 +28,27 @@ const ResetPasswordPage = () => {
     }
   }, [dispatch, navigate, resetStep])
 
-  const isPasswordValid = password => {
+  const isPasswordValid = (password: string) => {
     return password.length >= 6
   }
 
-  const onTokenChange = e => {
+  const onTokenChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
     setToken(value)
     setTokenError(value ? false : true)
   }
 
-  const onPasswordChange = e => {
+  const onPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
     setPassword(value)
     setPasswordError(isPasswordValid(value) ? false : true)
   } 
 
-  const onIconClickPasswordHandle = e => {
+  const onIconClickPasswordHandle = (e: React.MouseEvent<HTMLElement>) => {
     setPasswordVisible(!passwordVisible)
   }
 
-  const submitHandler = e => {
+  const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
     if (resetRequest) {

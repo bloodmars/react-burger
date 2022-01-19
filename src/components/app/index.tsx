@@ -17,22 +17,29 @@ import Modal from 'components/modal'
 import IngredientDetails from 'components/ingredient-details'
 import styles from './styles.module.css'
 
+interface ILocationState {
+  state: {
+    background: string;
+  };
+}
+
 const App = () => {
   const RouterSwitch = () => {
     const dispatch = useDispatch()
-    const location = useLocation()
     const navigate = useNavigate()
+    const location = useLocation()
 
     useEffect(() => {
       dispatch(getUser())
       dispatch(getIngredients())
     }, [dispatch])
 
-    const background = location.state && location.state.background
+    const { state } = location as ILocationState
+    const background = state && state.background
 
-    const { isInitRequested: isUserLoaded } = useSelector(store => store.user)
+    const { isInitRequested: isUserLoaded } = useSelector((store: { user: any }) => store.user)
     const { isInitRequested: isIngredientsLoaded, 
-      isIngredientsGetFailed } = useSelector(store => store.ingredients)
+      isIngredientsGetFailed } = useSelector((store: { ingredients: any }) => store.ingredients)
 
     const handleModalClose = () => {
       navigate('/')

@@ -1,14 +1,15 @@
-import React from 'react'
+import React, { FC } from 'react'
 import { useParams, useLocation } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './styles.module.css'
+import IIngredient from 'interfaces/ingredient'
 
-const IngredientDetails = () => { 
+const IngredientDetails: FC = () => { 
   const { id } = useParams()
   const { state } = useLocation()
-  const { ingredients } = useSelector(store => store.ingredients)
-  const ingredient = ingredients.find(ingredient => ingredient._id === id)
+  const { ingredients } = useSelector((store: { ingredients: any }) => store.ingredients)
+  const ingredient = ingredients.find((ingredient: IIngredient) => ingredient._id === id)
 
   return (
     <div className={styles.container}>

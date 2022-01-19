@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { FC } from 'react'
 import BurgerConstructor from 'components/burger-constructor'
 import BurgerIngredients from 'components/burger-ingredients'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import styles from './styles.module.css'
 
-const ConstructorPage = () => {
+const ConstructorPage: FC = () => {
   return (
     <DndProvider backend={HTML5Backend}>
       <section className={styles.section}>
